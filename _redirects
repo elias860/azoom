@@ -1,0 +1,17 @@
+# Mirrors the routing done locally by Azoom Server/serve-all.mjs, since
+# Netlify only serves static files (it can't run that custom Node server).
+# Order matters — first match wins, so the sub-site rules must come before
+# the catch-all root rule.
+
+# Malaysia and Egypt use client-side routing (React Router) — any deep link
+# that isn't a real built file falls back to that site's own index.html so
+# React Router can take over (e.g. /malaysia/contact, /egypt/fees).
+/malaysia/*  /malaysia/index.html  200
+/egypt/*     /egypt/index.html     200
+
+# Global and the Hub are single-page sites — no deep sub-routes needed, but
+# this keeps a direct hit on any stray /global/* path working too.
+/global/*    /global/index.html    200
+
+# Hub itself, at the root.
+/*           /index.html           200
