@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/malaysia/:path*", "destination": "/malaysia/index.html" },
+    { "source": "/egypt/:path*", "destination": "/egypt/index.html" },
+    { "source": "/global/:path*", "destination": "/global/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
