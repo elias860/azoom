@@ -1,0 +1,1 @@
+var e=`/malaysia/assets/01-DV5pcuIE.jpg`,t=`/malaysia/assets/02-D_Z7pUuW.jpg`,n=`/malaysia/assets/hjkh-D9SbIEsp.jpg`;export{t as n,e as r,n as t};

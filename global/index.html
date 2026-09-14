@@ -8,7 +8,27 @@
     <title>Azoom | More Study Destinations</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!--
+      Loaded without blocking the page's first render: the stylesheet still
+      contains font-display:swap (text shows immediately in the fallback
+      font from src/index.css either way), but a normal <link rel="stylesheet">
+      also blocks the browser from painting ANYTHING until it's fetched —
+      media="print" sidesteps that (the browser doesn't need it for the
+      current screen render), then the onload swap applies it once it's in.
+      <noscript> keeps it working with JS disabled.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+      />
+    </noscript>
     <script type="module" crossorigin src="/global/assets/index-BcPa2Vqf.js"></script>
     <link rel="stylesheet" crossorigin href="/global/assets/index-CYfUBjEr.css">
   </head>
