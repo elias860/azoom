@@ -5,6 +5,7 @@
   "rewrites": [
     { "source": "/malaysia/:path*", "destination": "/malaysia/index.html" },
     { "source": "/egypt/:path*", "destination": "/egypt/index.html" },
+    { "source": "/rwanda/:path*", "destination": "/rwanda/index.html" },
     { "source": "/global/:path*", "destination": "/global/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -19,6 +20,10 @@
     },
     {
       "source": "/egypt/assets/:path*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/rwanda/assets/:path*",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {

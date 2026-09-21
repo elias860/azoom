@@ -9,8 +9,9 @@
 /malaysia/*  /malaysia/index.html  200
 /egypt/*     /egypt/index.html     200
 
-# Global and the Hub are single-page sites — no deep sub-routes needed, but
-# this keeps a direct hit on any stray /global/* path working too.
+# Rwanda, Global, and the Hub are single-page sites — no deep sub-routes
+# needed, but this keeps a direct hit on any stray sub-path working too.
+/rwanda/*    /rwanda/index.html    200
 /global/*    /global/index.html    200
 
 # Hub itself, at the root.
