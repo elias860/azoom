@@ -1,0 +1,6 @@
+# Secret keys — never upload to GitHub
+.env
+.env.*
+
+# Installed packages
+node_modules/

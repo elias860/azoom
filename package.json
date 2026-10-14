@@ -1,0 +1,8 @@
+{
+  "name": "azoom-site",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0"
+  }
+}
