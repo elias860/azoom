@@ -132,7 +132,7 @@
       background: linear-gradient(135deg, var(--brand-400), var(--brand-700)); margin-top: 2px;
     }
     .avatar .icon { width: 18px; height: 18px; }
-    .bubble { max-width: min(700px, 88%); line-height: 1.625; font-size: 16px; font-weight: 400; overflow-wrap: anywhere; }
+    .bubble { max-width: min(700px, 88%); line-height: 1.625; font-size: 16px; font-weight: 400; overflow-wrap: break-word; }
     .msg.user .bubble {
       background: var(--user-bg); color: var(--user-text); padding: 10px 16px; border-radius: 18px;
       border-start-end-radius: 6px; white-space: pre-wrap;
@@ -205,8 +205,38 @@
     @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
     @media (max-width: 560px) {
       .chips { grid-template-columns: 1fr; }
-      .bubble { max-width: 90%; }
       .title span { display: none; }
+      .hint { display: none; }
+      header.top { gap: 8px; padding-inline: 12px; }
+      .iconbtn { width: 36px; height: 36px; }
+      .wrap { padding-inline: 12px; }
+      /* answers use the full width on phones */
+      .msg.bot .avatar { display: none; }
+      .msg.bot > div { width: 100%; }
+      .msg.bot .bubble { max-width: 100%; padding: 12px 14px; }
+      .msg.user .bubble { max-width: 88%; }
+
+      /* tables become one card per row: "label: value" lines, nothing squeezed */
+      .tbl { border: 0; overflow: visible; margin: 2px 0 10px; }
+      .bubble table, .bubble tbody, .bubble tr, .bubble td { display: block; width: 100%; }
+      .bubble thead { display: none; }
+      .bubble tr {
+        border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; margin-bottom: 10px;
+        background: var(--row-alt);
+      }
+      .bubble tbody tr:nth-child(even) td { background: none; }
+      .bubble td {
+        display: flex; gap: 10px; align-items: baseline; justify-content: space-between;
+        padding: 5px 0; border-bottom: 1px dashed var(--border); white-space: normal !important; text-align: start;
+      }
+      .bubble td:last-child { border-bottom: 0; }
+      .bubble td::before {
+        content: attr(data-label); flex: none; color: var(--accent); font-weight: 700; font-size: 13px;
+      }
+      .bubble td > .v { text-align: end; }
+      /* last column is usually the fee: make it stand out */
+      .bubble td:last-child > .v { font-weight: 700; color: var(--strong); }
+      .bubble td:first-child { font-weight: 600; }
     }
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
   </style>
@@ -361,7 +391,7 @@
           const head = cells(l); i += 2; const rows = [];
           while (i < lines.length && isRow(lines[i])) rows.push(cells(lines[i++]));
           html += `<div class="tbl"><table><thead><tr>${head.map(c => `<th>${inline(c)}</th>`).join('')}</tr></thead><tbody>` +
-            rows.map(r => `<tr>${r.map(c => `<td>${inline(c)}</td>`).join('')}</tr>`).join('') + '</tbody></table></div>';
+            rows.map(r => `<tr>${r.map((c, k) => `<td data-label="${esc(head[k] || '')}"><span class="v">${inline(c)}</span></td>`).join('')}</tr>`).join('') + '</tbody></table></div>';
           continue;
         }
         const h = l.match(/^(#{1,4})\s+(.*)/);
