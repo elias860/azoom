@@ -120,11 +120,14 @@ function tooManyWrong(ip) {
   return hits.length >= WRONG_LIMIT;
 }
 
+// Copying through WhatsApp/phones can add spaces or invisible direction marks; ignore them on both sides.
+const cleanSecret = s => String(s ?? '').replace(/[​-‏‪-‮⁦-⁩﻿]/g, '').trim();
+
 function passwordOk(given) {
-  const expected = process.env.TEAM_PASSWORD;
+  const expected = cleanSecret(process.env.TEAM_PASSWORD);
   if (!expected || typeof given !== 'string') return false;
   const hash = s => crypto.createHash('sha256').update(s, 'utf8').digest();
-  return crypto.timingSafeEqual(hash(given), hash(expected));
+  return crypto.timingSafeEqual(hash(cleanSecret(given)), hash(expected));
 }
 
 function cleanMessages(raw) {
@@ -157,6 +160,10 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return json(res, 405, { error: 'Method not allowed' });
 
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+  // Not a wrong password: the server itself is missing settings. Say so, and don't lock anyone out.
+  if (!cleanSecret(process.env.TEAM_PASSWORD) || !process.env.ANTHROPIC_API_KEY) {
+    return json(res, 503, { error: 'not_configured' });
+  }
   const ip = clientIp(req);
   if (tooManyWrong(ip)) return json(res, 429, { error: 'Too many wrong passwords. Try again in 15 minutes.' });
   if (!passwordOk(body.password)) {

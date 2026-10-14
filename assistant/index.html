@@ -236,7 +236,7 @@
       <h1 data-t="name"></h1>
       <p class="sub" data-t="loginSub"></p>
       <div class="field">
-        <input id="pw" type="password" required autocomplete="current-password" data-ph="password" />
+        <input id="pw" type="password" required autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-ph="password" />
         <button type="button" id="togglePw" aria-label="Show password"><svg class="icon"><use href="#i-eye"/></svg></button>
       </div>
       <label class="remember"><input type="checkbox" id="remember" /> <span data-t="remember"></span></label>
@@ -295,7 +295,7 @@
       ar: {
         name: 'أزوم الزكي', internal: 'للاستخدام الداخلي فقط', loginSub: 'مساعد فريق أزوم الذكي — أدخل كلمة المرور للمتابعة',
         password: 'كلمة المرور', remember: 'تذكرني على هذا الجهاز', enter: 'دخول', checking: 'جارٍ التحقق…',
-        wrong: 'كلمة المرور غير صحيحة', tooMany: 'محاولات كثيرة خاطئة. حاول بعد 15 دقيقة.', netErr: 'تعذر الاتصال. تحقق من الإنترنت وحاول مجددًا.',
+        wrong: 'كلمة المرور غير صحيحة', tooMany: 'محاولات كثيرة خاطئة. حاول بعد 15 دقيقة.', notConfigured: 'الخادم غير مُعدّ بعد: أضف TEAM_PASSWORD و ANTHROPIC_API_KEY في إعدادات Vercel ثم أعد النشر.', netErr: 'تعذر الاتصال. تحقق من الإنترنت وحاول مجددًا.',
         backToSite: 'العودة إلى الموقع', online: 'جاهز للمساعدة', newChat: 'محادثة جديدة', theme: 'الوضع الليلي', logout: 'تسجيل الخروج',
         hello: 'أهلًا بفريق أزوم 👋', helloSub: 'إجابات دقيقة وسريعة لكل استفسارات طلابك.',
         ask: 'اكتب سؤالك هنا…', hint: 'Enter للإرسال • Shift+Enter لسطر جديد • تحقّق دائمًا من المعلومات المهمة قبل إرسالها للطلاب',
@@ -310,7 +310,7 @@
       en: {
         name: 'Smart Azoom', internal: 'Internal use only', loginSub: "The Azoom team's smart assistant — enter the password to continue",
         password: 'Password', remember: 'Remember me on this device', enter: 'Sign in', checking: 'Checking…',
-        wrong: 'Wrong password', tooMany: 'Too many wrong attempts. Try again in 15 minutes.', netErr: 'Connection failed. Check your internet and try again.',
+        wrong: 'Wrong password', tooMany: 'Too many wrong attempts. Try again in 15 minutes.', notConfigured: 'The server is not set up yet: add TEAM_PASSWORD and ANTHROPIC_API_KEY in Vercel settings, then redeploy.', netErr: 'Connection failed. Check your internet and try again.',
         backToSite: 'Back to the website', online: 'Ready to help', newChat: 'New chat', theme: 'Dark mode', logout: 'Sign out',
         hello: 'Hello, Azoom team 👋', helloSub: 'Fast, accurate answers to every student enquiry.',
         ask: 'Type your question…', hint: 'Enter to send • Shift+Enter for a new line • Always double-check important facts before sending them to students',
@@ -430,7 +430,7 @@
           if ($('remember').checked) store.set('localStorage', 'azoom-ai-pass', password);
           $('pw').value = ''; showApp();
         } else {
-          $('loginErr').textContent = r.status === 429 ? T.tooMany : T.wrong;
+          $('loginErr').textContent = r.status === 503 ? T.notConfigured : r.status === 429 ? T.tooMany : T.wrong;
           const card = $('loginForm'); card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
         }
       } catch { $('loginErr').textContent = T.netErr; }
